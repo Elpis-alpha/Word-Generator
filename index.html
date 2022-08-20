@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+  <title>Word Generator by Elpis</title>
+
+  <meta name="author" content="Elpis" />
+
+  <meta name="publisher" content="Elpis" />
+
+  <meta name='robots' content='all' />
+
+  <meta name='googlebot' content='all' />
+
+  <meta name='application-name' content="Word Generator by Elpis" />
+
+  <meta name="theme-color" content="#ff6347" />
+
+  <meta name="description"
+    content="A simple web application that can be used to generate a bunch of random (in-existent) words from which you can select any." />
+
+  <link rel="icon" href="favicon.ico" />
+
+  <link rel="apple-touch-icon" href="logo192.png" />
+
+  <link rel="manifest" href="manifest.json" />
+
+  <meta property="og:title" content="Word Generator by Elpis" />
+
+  <script>document.write(`<meta property="og:url" content="${location.href}" />`)</script>
+
+  <meta property="og:description"
+    content="A simple web application that can be used to generate a bunch of random (in-existent) words from which you can select any." />
+
+  <meta property="og:type" content="website" />
+
+  <meta property="og:locale" content="en_US" />
+
+  <meta property="og:image" content="og-image.png" />
+
+  <meta property="og:image:width" content="1200" />
+
+  <meta property="og:image:height" content="630" />
+
+  <meta property="og:image:type" content="image/png" />
+
+  <link rel="image_src" href="og-image.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <meta name="twitter:site" content="@elpis_alpha" />
+
+  <meta name="twitter:creator" content="@elpis_alpha" />
+
+  <meta name="twitter:title" content="Word Generator by Elpis" />
+
+  <meta name="twitter:description"
+    content="A simple web application that can be used to generate a bunch of random (in-existent) words from which you can select any." />
+
+  <meta name="twitter:image" content="og-image.png" />
+
+  <style>
+    h1 {
+      font-size: 2pc;
+      line-height: 3pc;
+    }
+
+    h2 {
+      font-size: 1.8pc;
+      line-height: 3pc;
+    }
+
+    h3 {
+      font-size: 1.6pc;
+      line-height: 2.5pc;
+    }
+
+    h4 {
+      font-size: 1.4pc;
+      line-height: 2.5pc;
+    }
+
+    h5 {
+      font-size: 1.2pc;
+      line-height: 2pc;
+    }
+
+    h6 {
+      font-size: 1pc;
+      line-height: 1.8pc;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      position: relative;
+      font-family: inherit;
+      font-size: inherit;
+      word-break: break-word;
+      line-height: inherit;
+    }
+
+    body {
+      min-height: 100vh;
+      font-size: 1pc;
+      line-height: 2pc;
+      font-family: Main, Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      background-color: #f7f7f7;
+      color: #323232;
+      overflow-x: hidden;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-direction: column;
+    }
+
+    .absolute-invisibility {
+      position: absolute;
+      display: none;
+      width: 0;
+      height: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+    }
+
+    button {
+      border: 1px solid grey;
+      background-color: transparent;
+      outline: 0 none;
+      cursor: pointer;
+      padding: 0 .5rem;
+      width: 100%;
+    }
+
+    ::-webkit-scrollbar {
+      width: .3rem;
+      height: .3rem;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: #C6C6C6;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #343434;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #151515;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    /* ------------------------------------------------------------------ */
+
+    @keyframes opacity-in {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes scale-in {
+      from {
+        transform: scale(0);
+      }
+
+      to {
+        transform: scale(1);
+      }
+    }
+
+    form {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 30;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, .2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    form>.inner {
+      background-color: #f7f7f7;
+      color: #fff;
+      background-color: #ff6347;
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, .3);
+      border-radius: 1pc;
+      padding: 1.5pc 2pc;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .f-p {
+      display: block;
+      padding-bottom: 1pc;
+    }
+
+    .f-p>label {
+      display: block;
+      /* font-weight: bold; */
+    }
+
+    .f-p>input {
+      width: 100%;
+      background-color: transparent;
+      border: 1px solid #fff;
+      outline: 0 none;
+      border-radius: .2pc;
+      padding: .1pc .5pc;
+      color: inherit;
+    }
+
+    button {
+      width: 100%;
+      background-color: transparent;
+      border: 1px solid #fff;
+      outline: 0 none;
+      border-radius: .2pc;
+      padding: 0 .5pc;
+      color: inherit;
+      transition: all .5s;
+    }
+
+    button:hover {
+      color: tomato;
+      background-color: #fff;
+    }
+
+    .result {
+      z-index: 10;
+    }
+
+    .result .inner {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    p {
+      padding: 0.5pc 1pc;
+      margin: 0.8pc;
+      box-shadow: 2px 2px 5px rgb(0 0 0 / 50%);
+      border-radius: 0.5pc;
+      cursor: pointer;
+    }
+
+    .ab-all {
+      position: fixed;
+      z-index: 50;
+      bottom: 1pc;
+      right: 1pc;
+      background-color: sienna;
+      padding: .5pc 1.5pc;
+      color: #fff;
+      border-radius: .7pc;
+      cursor: pointer;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <form onsubmit="generateNames(event)">
+
+    <div class="inner">
+
+      <div class="f-p">
+
+        <label>Number of names</label>
+
+        <input type="number" name="number" min="5" value="1000">
+
+      </div>
+
+      <div class="f-p">
+
+        <label>Min Length</label>
+
+        <input type="number" name="min-l" min="3" value="3">
+
+      </div>
+
+      <div class="f-p">
+
+        <label>Max Length</label>
+
+        <input type="number" name="max-l" min="5" value="10">
+
+      </div>
+
+      <button>Generate</button>
+
+    </div>
+
+  </form>
+
+  <div class="result">
+
+    <div class="inner"></div>
+
+  </div>
+
+  <div class="ab-all" onclick="toggleForm()">Toggle</div>
+
+  <script>
+
+    const genWords = (number = 10, range = { min: 5, max: 15 }) => {
+
+      const { min, max } = range
+
+      const randomAmong = (num1, num2) => {
+
+        return (Math.floor(Math.random() * (num2 - num1 + 1))) + num1
+
+      }
+
+      const addName = name => {
+
+        if (!document) return false
+
+        const bat = document.createElement('p')
+
+        bat.appendChild(document.createTextNode(name))
+
+        document.querySelector('.result>.inner').appendChild(bat)
+
+      }
+
+      const chooseFrom = (arr) => {
+
+        return arr[randomAmong(0, (arr.length - 1))]
+
+      }
+
+      const capitalize = (str) => {
+
+        return str.charAt(0).toLocaleUpperCase() + str.slice(1);
+
+      }
+
+      const alpha = 'qwertyuiopasdfghjklzxcvbnm'.split('')
+
+      const words = []
+
+      for (let i = 0; i < number; i++) {
+
+        let name = ''
+
+        const nameLength = randomAmong(min, max)
+
+        name = Array(nameLength).fill('s').map(() => chooseFrom(alpha)).join('')
+
+        addName(capitalize(name))
+
+        words.push(capitalize(name))
+
+      }
+
+      return words
+
+    }
+
+    const toggleForm = () => {
+
+      if (document.querySelector('form').style.display === 'none') {
+
+        document.querySelector('form').style.display = 'flex'
+
+      } else {
+
+        document.querySelector('form').style.display = 'none'
+
+      }
+
+    }
+
+    const generateNames = e => {
+
+      e.preventDefault();
+
+      const vals = e.currentTarget
+
+      document.querySelector('.result>.inner').innerHTML = ''
+
+      genWords(parseInt(vals['number'].value), { min: parseInt(vals['min-l'].value), max: parseInt(vals['max-l'].value) })
+
+      document.querySelector('form').style.display = 'none'
+
+    }
+
+  </script>
+
+</body>
+
+</html>
